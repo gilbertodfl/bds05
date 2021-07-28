@@ -1,8 +1,7 @@
 package com.devsuperior.movieflix.services;
 
-//import java.util.List;
+
 import java.util.Optional;
-//import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -11,68 +10,66 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-//import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.devsuperior.movieflix.dto.EventDTO;
 import com.devsuperior.movieflix.dto.MovieDTO;
-import com.devsuperior.movieflix.entities.City;
-import com.devsuperior.movieflix.entities.Event;
-import com.devsuperior.movieflix.repositories.EventRepository;
+import com.devsuperior.movieflix.entities.Genre;
+import com.devsuperior.movieflix.entities.Movie;
+import com.devsuperior.movieflix.repositories.MovieRepository;
 import com.devsuperior.movieflix.services.exceptions.DatabaseException;
 import com.devsuperior.movieflix.services.exceptions.ResourceNotFoundException;
 
-
-
 @Service
-public class EventService {
+public class MovieService {
 	// Já instância : org.springframework.beans.factory.annotation.Autowired;
 	@Autowired
-	private EventRepository repository;
-/*	public List<EventDTO> findAll(){
+	private MovieRepository repository;
+/*	public List<MovieDTO> findAll(){
 		List<Event> list = repository.findAll(Sort.by("name"));
 		// o comando abaixo faz um "FOR" 
-		return list.stream().map( x -> new EventDTO(x)).collect(Collectors.toList());
+		return list.stream().map( x -> new MovieDTO(x)).collect(Collectors.toList());
 		
 	}
 */	
 	@Transactional(readOnly = true)
-	public Page<EventDTO> findAll(Pageable pageable) {
-		Page<Event> list = repository.findAll(pageable);
-		return list.map(x -> new EventDTO(x));
+	public Page<MovieDTO> findAll(Pageable pageable) {
+		Page<Movie> list = repository.findAll(pageable);
+		return list.map(x -> new MovieDTO(x));
 	}
 
 	@Transactional(readOnly = true)
-	public EventDTO findById(Long id) {
-		Optional<Event> obj = repository.findById(id);
-		Event entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
-		return new EventDTO(entity);
+	public MovieDTO findById(Long id) {
+		Optional<Movie> obj = repository.findById(id);
+		Movie entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
+		return new MovieDTO(entity);
 	}
 
 	@Transactional 
-	public EventDTO insert(EventDTO dto) {
-		Event entity = new Event();
-		entity.setName(dto.getName());
-		entity.setDate(dto.getDate());
-		entity.setUrl(dto.getUrl());
-		entity.setCity ( new City ( dto.getCityId(), null ));
+	public MovieDTO insert(MovieDTO dto) {
+		Movie entity = new Movie();
+		entity.setTitle(dto.getTitle());
+		entity.setSubTitle(dto.getSubTitle());
+		entity.setImgUrl(dto.getImgUrl());
+		entity.setSynopsis(dto.getSynopsis());
+		entity.setYear(dto.getYear());
+		entity.setGenre ( new Genre ( dto.getGenreId(), null ));
 		entity = repository.save(entity);
-		return new EventDTO(entity);
-	
+		return new MovieDTO(entity);
 	}
 
 	@Transactional
-	public EventDTO update(Long id, EventDTO dto) {
+	public MovieDTO update(Long id, MovieDTO dto) {
 		try {
-			Event entity = repository.getOne(id);
-		//	Event entity = new Event();
-			entity.setName(dto.getName());
-			entity.setDate(dto.getDate());
-			entity.setUrl(dto.getUrl());
-			entity.setCity ( new City ( dto.getCityId(), null ));
+			Movie entity = repository.getOne(id);
+			entity.setTitle(dto.getTitle());
+			entity.setSubTitle(dto.getSubTitle());
+			entity.setImgUrl(dto.getImgUrl());
+			entity.setSynopsis(dto.getSynopsis());
+			entity.setYear(dto.getYear());
+			entity.setGenre ( new Genre ( dto.getGenreId(), null ));
 			entity = repository.save(entity);
-			return new EventDTO(entity);
+			return new MovieDTO(entity);
 
 		}
 		catch (EntityNotFoundException e) {

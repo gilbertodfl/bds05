@@ -3,7 +3,6 @@ package com.devsuperior.movieflix.entities;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -31,13 +30,13 @@ public class Movie {
 
 	
 	//https://www.guj.com.br/t/resolvido-problema-com-uma-consulta-em-criteria-hibernate/292220
-	@Column( nullable = true)
+//	@Column( nullable = true)
 	@ManyToOne
 	@JoinColumn(name = "genre_id")
-	private Genre genre;
+	public Genre genre;
 
 	@OneToMany(mappedBy = "movie")
-	private List<Review> reviews = new ArrayList<>();
+	public List<Review> review = new ArrayList<>();
 
 	
 	public Movie() {
@@ -123,7 +122,7 @@ public class Movie {
 	}
 
 	public List<Review> getReviews() {
-		return reviews;
+		return review;
 	}
 
 	@Override

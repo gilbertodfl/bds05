@@ -19,22 +19,29 @@ public class Review implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String text;
-	private User User;
+/*	private User user;
 	private Movie Movie;
-	
+	*/
+		
 	@ManyToOne
 	@JoinColumn(name = "movie_id")
-	private Movie movie;
+	public Movie movie;
 
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	public User user;
 	
 	public Review() {
 	}
 
-	public Review(Long id, String text) {
-		super();
+
+	public Review(Long id, String text, User user, Movie movie)	{
 		this.id = id;
 		this.text = text;
+		this.user = user;
+		this.movie = movie;
 	}
+
 
 	public Long getId() {
 		return id;
@@ -51,23 +58,21 @@ public class Review implements Serializable {
 	public void setText(String text) {
 		this.text = text;
 	}
-	
-
 
 	public User getUser() {
-		return User;
+		return user;
 	}
 
 	public void setUser(User user) {
-		User = user;
+		this.user = user;
 	}
 
 	public Movie getMovie() {
-		return Movie;
+		return movie;
 	}
 
 	public void setMovie(Movie movie) {
-		Movie = movie;
+		this.movie = movie;
 	}
 
 	@Override
