@@ -15,12 +15,17 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+	// o abaixo foi implementado em config/AppConfig.java
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 	
+	// O abaixo foi implemnentado no services/UserService.java
 	@Autowired
 	private UserDetailsService userDetailsService;
 	
+	// veja que com a injeção que fizemos do Bcrypt e UserDetail service conseguimos obter:
+	// UserDetailService - consigo pegar o usuário
+	// passwordEncoder  - consigo ler a senha encryptada
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);

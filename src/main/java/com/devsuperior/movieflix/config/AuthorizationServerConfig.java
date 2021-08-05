@@ -17,6 +17,8 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
+	// esse valores foram definidos em resouces/config/application.properties
+	
 	@Value("${security.oauth2.client.client-id}")
 	private String clientId;
 	
